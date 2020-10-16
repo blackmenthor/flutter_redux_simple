@@ -19,9 +19,12 @@ class AppState {
   // Initialize the default values here:
   const AppState({
     int counter,
+    bool isRefreshing,
   })  : this.counter =
-      counter ?? 0;
+      counter ?? 0,
+      this.isRefreshing = isRefreshing ?? false;
 
   // Finally, the properties of this class:
   final int counter;
+  final bool isRefreshing;
 }

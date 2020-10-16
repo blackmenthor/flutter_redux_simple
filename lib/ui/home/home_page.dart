@@ -11,9 +11,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, int>(
-      converter: (Store<AppState> store) => store.state.counter,
-      builder: (context, counter) {
+    return StoreConnector<AppState, AppState>(
+      converter: (Store<AppState> store) => store.state,
+      builder: (context, AppState state) {
         Store<AppState> store = StoreProvider.of<AppState>(context);
         return Scaffold(
           appBar: AppBar(
@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
                   'You have pushed the button this many times:',
                 ),
                 Text(
-                  '$counter',
+                  '${state.counter}',
                   style: Theme.of(context).textTheme.headline4,
                 ),
               ],
@@ -37,6 +37,18 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: FloatingActionButton(
+                  onPressed: () => store.dispatch(StartRefreshAction()),
+                  tooltip: 'Refresh',
+                  child: state.isRefreshing
+                      ? CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                  )
+                      : Icon(Icons.refresh),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: FloatingActionButton(
